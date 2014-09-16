@@ -6,7 +6,7 @@ shinyUI(fluidPage(
   sidebarLayout(
     sidebarPanel(
       textInput("term", label="Search tweets containing", value="#BigData"),
-      dateRangeInput("period", label="between", start=Sys.Date()-5, end=Sys.Date()),
+      dateRangeInput("period", label="between", start=Sys.Date()-3, end=Sys.Date()),
       br(),
       submitButton("Search")
     ),
