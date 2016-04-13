@@ -54,7 +54,9 @@ shinyServer(function(input, output) {
                                     removeNumbers = TRUE,
                                     tolower = TRUE,
                                     stemming = TRUE,
-                                    stopwords = c(unlist(strsplit(input$term, " ")), stopwords("english"))
+                                    stopwords = c(unlist(strsplit(input$term, " ")),
+                                                  paste0(c("@", "#"), "smarter travel"),
+                                                  stopwords("english"))
                                   ))
         m <- as.matrix(tdm)
         word_freqs <- sort(rowSums(m), decreasing = TRUE) 
