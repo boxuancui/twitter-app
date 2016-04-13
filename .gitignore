@@ -1,1 +1,8 @@
-credential.RData
+*.Rproj
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.idea
+.DS_Store
+.httr-oauth

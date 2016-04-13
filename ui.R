@@ -1,15 +1,17 @@
 library(shiny)
+library(shinythemes)
 
 shinyUI(fluidPage(
-  theme="bootstrap.min.css",
-  titlePanel("Twitter App"),
+  titlePanel(title = "Twitter App"),
+  theme = shinytheme("journal"),
+  tags$head(tags$script(src = "general.js")),
   
   sidebarLayout(
     sidebarPanel(
-      textInput("term", label="Search tweets containing", value="#BigData"),
-      br(),
-      dateRangeInput("period", label="between", start=Sys.Date()-3, end=Sys.Date()),
-      br(),
+      width = 3,
+      textInput("term", label = "Search tweets containing", value = "SmarterTravel"),
+      dateRangeInput("period", label = "between", start = Sys.Date() - 7, end = Sys.Date(), max = Sys.Date()),
+      sliderInput("num_tweets", label = "with no more than n tweets", min = 100, max = 5000, value = 1000, step = 100),
       actionButton("search_tweets", label="Search")
     ),
     
