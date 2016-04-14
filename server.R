@@ -36,33 +36,35 @@ shinyServer(function(input, output) {
     input$search_tweets
     if (input$search_tweets == 0) return()
     
-    withProgress(message="Retrieving tweets", value = 0.1, {
+    withProgress(message = "Please wait!", value = 0, {
+      incProgress(5 / 100, detail = "Fetching tweets ...")
       raw_data <- raw_tweets()
       
-      withProgress(message = "Parsing tweets", value = 0.8, {
-        if (length(raw_data) <= 0) {
-          stop("No tweets found within specified date range.")
-        } else {
-          orig_tweets <- raw_data[!(sapply(raw_data, function(x) {x$getRetweeted()}))]
-        }
-        
-        data_text <- sapply(orig_tweets, function(x) {iconv(x$getText(), to = "UTF-8")})
-        data_corpus <- Corpus(VectorSource(data_text))
-        tdm <- TermDocumentMatrix(data_corpus,
-                                  control=list(
-                                    removePunctuation = TRUE,
-                                    removeNumbers = TRUE,
-                                    tolower = TRUE,
-                                    stemming = TRUE,
-                                    stopwords = c(unlist(strsplit(input$term, " ")),
-                                                  paste0(c("@", "#"), "smarter travel"),
-                                                  stopwords("english"))
-                                  ))
-        m <- as.matrix(tdm)
-        word_freqs <- sort(rowSums(m), decreasing = TRUE) 
-        data <- data.frame(word = names(word_freqs), freq = word_freqs)
-        wordcloud(data$word, data$freq, min.freq = 3, random.order = FALSE, colors = brewer.pal(8, "Dark2"))
-      })
+      incProgress(50 / 100, detail = "Parsing tweets ...")
+      if (length(raw_data) <= 0) {
+        stop("No tweets found within specified date range.")
+      } else {
+        orig_tweets <- raw_data[!(sapply(raw_data, function(x) {x$getRetweeted()}))]
+      }
+      
+      data_text <- sapply(orig_tweets, function(x) {iconv(x$getText(), to = "UTF-8")})
+      data_corpus <- Corpus(VectorSource(data_text))
+      tdm <- TermDocumentMatrix(data_corpus,
+                                control=list(
+                                  removePunctuation = TRUE,
+                                  removeNumbers = TRUE,
+                                  tolower = TRUE,
+                                  stemming = TRUE,
+                                  stopwords = c(unlist(strsplit(input$term, " ")),
+                                                paste0(c("@", "#"), "smarter travel"),
+                                                stopwords("english"))
+                                ))
+      m <- as.matrix(tdm)
+      word_freqs <- sort(rowSums(m), decreasing = TRUE) 
+      data <- data.frame(word = names(word_freqs), freq = word_freqs)
+      
+      incProgress(90 / 100, detail = "Creating word cloud ...")
+      wordcloud(data$word, data$freq, min.freq = 3, random.order = FALSE, colors = brewer.pal(8, "Dark2"))
     })
   }, width = 1024)
   
