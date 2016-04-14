@@ -11,7 +11,7 @@ shinyUI(fluidPage(
       width = 3,
       textInput("term", label = "Search tweets containing", value = "SmarterTravel"),
       dateRangeInput("period", label = "between", start = Sys.Date() - 7, end = Sys.Date(), max = Sys.Date()),
-      sliderInput("num_tweets", label = "with no more than n tweets", min = 100, max = 5000, value = 1000, step = 100),
+      sliderInput("num_tweets", label = "with no more than n tweets", min = 100, max = 5000, value = 1000, step = 200),
       actionButton("search_tweets", label="Search")
     ),
     
