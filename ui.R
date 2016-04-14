@@ -9,10 +9,13 @@ shinyUI(fluidPage(
   sidebarLayout(
     sidebarPanel(
       width = 3,
-      textInput("term", label = "Search tweets containing", value = "SmarterTravel"),
-      dateRangeInput("period", label = "between", start = Sys.Date() - 7, end = Sys.Date(), max = Sys.Date()),
+      textInput("search_term", label = "Search tweets containing", value = "smarter travel"),
+      dateRangeInput("search_period", label = "between", start = Sys.Date() - 7, end = Sys.Date(), max = Sys.Date()),
       sliderInput("num_tweets", label = "with no more than n tweets", min = 100, max = 5000, value = 1000, step = 200),
-      actionButton("search_tweets", label="Search")
+      textInput("stop_words", label="removing the following words from word cloud:", value=""),
+      hr(),
+      actionButton("search_tweets", label="Search"),
+      actionButton("update_cloud", label="Update Word Cloud")
     ),
     
     mainPanel(
