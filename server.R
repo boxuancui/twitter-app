@@ -62,10 +62,10 @@ shinyServer(function(input, output, session) {
         data <- data.frame(word = names(word_freqs), freq = word_freqs)
         
         incProgress(90 / 100, detail = "Creating word cloud ...")
-        wordcloud(data$word, data$freq, min.freq = 3, random.order = FALSE, colors = brewer.pal(8, "Dark2"))
+        wordcloud(data$word, data$freq, min.freq = 3, random.order = FALSE, colors = brewer.pal(8, "Dark2"), scale = c(8, 0.3))
       })
     })
-  }, width = 1024)
+  }, width = 800, height = 600)
   
   output$tweets <- renderDataTable({
     if (input$search_tweets == 0) return()
